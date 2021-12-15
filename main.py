@@ -1,5 +1,6 @@
 import pygame
 from utils.constants import *
+from checkers.board import Board
 
 FPS = 60
 
@@ -13,6 +14,7 @@ def main():
     """
     run = True
     clock = pygame.time.Clock()
+    board = Board()
 
     while run:
         clock.tick(FPS)
@@ -23,6 +25,9 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 pass
+
+        board.draw_board(WIN)
+        pygame.display.update()
 
     pygame.quit()
 
