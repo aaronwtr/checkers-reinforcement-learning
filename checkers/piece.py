@@ -42,4 +42,3 @@ class Piece:
         :return: A string representation of the piece.
         """
         return "Piece: " + str(selfs.row) + ", " + str(selfs.col) + ", " + str(selfs.color)
-        """
