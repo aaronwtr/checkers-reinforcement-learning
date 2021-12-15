@@ -26,7 +26,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 pass
 
-        board.draw_grid(WIN)
+        board.draw(WIN)
         pygame.display.update()
 
     pygame.quit()
