@@ -1,6 +1,7 @@
 import pygame
-from utils.constants import *
+from checkers.actions import Actions
 from checkers.board import Board
+from utils.constants import *
 
 FPS = 60
 
@@ -25,6 +26,7 @@ def main():
     run = True
     clock = pygame.time.Clock()
     board = Board()
+    actions = Actions(WIN)
 
     while run:
         clock.tick(FPS)
@@ -36,11 +38,8 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 row, col = get_pos_from_mouse(pos)
-                piece = board.get_piece(row, col)
-                board.move(piece, 4, 3)
 
-        board.draw(WIN)
-        pygame.display.update()
+        actions.update()
 
     pygame.quit()
 

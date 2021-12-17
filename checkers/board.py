@@ -9,7 +9,6 @@ class Board:
         Initializes the board.
         """
         self.board = []
-        self.selected = None
         self.blue_left = self.red_left = 12
         self.blue_kings = self.red_kings = 0
         self.create_board()
