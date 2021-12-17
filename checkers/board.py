@@ -12,12 +12,6 @@ class Board:
         self.blue_left = self.red_left = 12
         self.blue_kings = self.red_kings = 0
         self.create_board()
-        # self.board[3][3] = 1
-        # self.board[3][4] = 2
-        # self.board[4][3] = 2
-        # self.board[4][4] = 1
-        # self.turn = 1
-        # self.winner = 0
 
     def draw_grid(self, screen):
         """
@@ -83,3 +77,93 @@ class Board:
                 piece = self.board[row][col]
                 if piece != 0:
                     piece.draw(screen)
+
+    def remove_piece(self, pieces):
+        for piece in pieces:
+            self.board[piece.row][piece.col] = 0
+
+    def get_valid_moves(self, piece):
+        moves = {}
+        left = piece.col - 1
+        right = piece.col + 1
+        row = piece.row
+
+        if piece.color == BLUE or piece.king:
+            moves.update(self._traverse_left(row - 1, max(row - 3, -1), -1, piece.color, left))
+            moves.update(self._traverse_right(row - 1, max(row - 3, -1), -1, piece.color, right))
+
+        if piece.color == RED or piece.king:
+            moves.update(self._traverse_left(row + 1, min(row + 3, NUM_ROWS), 1, piece.color, left))
+            moves.update(self._traverse_right(row + 1, min(row + 3, NUM_ROWS), 1, piece.color, right))
+
+        return moves
+
+    def _traverse_left(self, start, stop, step, color, left, skipped=[]):
+        moves = {}
+        last = []
+        for r in range(start, stop, step):
+            if left < 0:
+                break
+
+            potential_move = self.board[r][left]
+            if potential_move == 0:
+                if skipped and not last:
+                    break
+                elif skipped:
+                    moves[(r, left)] = last + skipped
+                    break
+                else:
+                    moves[(r, left)] = last     # If checks are passed, add the move to dict of valid moves
+
+                if last:
+                    if step == -1:
+                        row = max(r - 3, -1)
+                    else:
+                        row = min(r + 3, NUM_ROWS)
+
+                    moves.update(self._traverse_left(r + step, row, step, color, left - 1, skipped=last))
+                    moves.update(self._traverse_right(r + step, row, step, color, left + 1, skipped=last))
+                break
+
+            elif potential_move.color == color:
+                break
+            else:
+                last = [potential_move]    # if after one jump we can still jump, adjust the last list
+            left -= 1
+
+        return moves
+
+    def _traverse_right(self, start, stop, step, color, right, skipped=[]):
+        moves = {}
+        last = []
+        for r in range(start, stop, step):
+            if right >= NUM_COLS:
+                break
+
+            potential_move = self.board[r][right]
+            if potential_move == 0:
+                if skipped and not last:
+                    break
+                elif skipped:
+                    moves[(r, right)] = last + skipped
+                    break
+                else:
+                    moves[(r, right)] = last     # If checks are passed, add the move to dict of valid moves
+
+                if last:
+                    if step == -1:
+                        row = max(r - 3, -1)
+                    else:
+                        row = min(r + 3, NUM_ROWS)
+
+                    moves.update(self._traverse_left(r + step, row, step, color, right - 1, skipped=last))
+                    moves.update(self._traverse_right(r + step, row, step, color, right + 1, skipped=last))
+                break
+
+            elif potential_move.color == color:
+                break
+            else:
+                last = [potential_move]    # if after one jump we can still jump, adjust the last list
+            right += 1
+
+        return moves
