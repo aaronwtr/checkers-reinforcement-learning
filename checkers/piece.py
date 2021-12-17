@@ -33,6 +33,16 @@ class Piece:
     def make_king(self):
         self.king = True
 
+    def move(self, row, col):
+        """
+        Moves the piece to the given row and column.
+        :param row: The row to move to.
+        :param col: The column to move to.
+        """
+        self.row = row
+        self.col = col
+        self.calc_pos()
+
     def draw(self, screen):
         pygame.draw.circle(screen, self.color, (self.x, self.y), self.PIECE_RADIUS)
         if self.king:
