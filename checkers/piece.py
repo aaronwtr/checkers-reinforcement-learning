@@ -35,6 +35,8 @@ class Piece:
 
     def draw(self, screen):
         pygame.draw.circle(screen, self.color, (self.x, self.y), self.PIECE_RADIUS)
+        if self.king:
+            screen.blit(CROWN, (self.x - CROWN.get_width() // 2, self.y - CROWN.get_height() // 2))
 
     def __repr__(selfs):
         """
