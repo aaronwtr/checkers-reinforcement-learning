@@ -33,7 +33,7 @@ class Board:
         self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
         piece.move(row, col)
 
-        if row == 0 or row == NUM_ROWS:
+        if row == 0 or row == NUM_ROWS - 1:
             piece.make_king()
             if piece.color == RED:
                 self.red_kings += 1
@@ -111,7 +111,6 @@ class Board:
                     break
                 elif skipped:
                     moves[(r, left)] = last + skipped
-                    break
                 else:
                     moves[(r, left)] = last     # If checks are passed, add the move to dict of valid moves
 
@@ -146,7 +145,6 @@ class Board:
                     break
                 elif skipped:
                     moves[(r, right)] = last + skipped
-                    break
                 else:
                     moves[(r, right)] = last     # If checks are passed, add the move to dict of valid moves
 
