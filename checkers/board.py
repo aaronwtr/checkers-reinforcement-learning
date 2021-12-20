@@ -12,6 +12,7 @@ class Board:
         self.blue_left = self.red_left = 12
         self.blue_kings = self.red_kings = 0
         self.create_board()
+        self.run = True
 
     def draw_grid(self, screen):
         """
@@ -81,6 +82,24 @@ class Board:
     def remove_piece(self, pieces):
         for piece in pieces:
             self.board[piece.row][piece.col] = 0
+            if piece != 0:
+                if piece.color == BLUE:
+                    self.blue_left -= 1
+                else:
+                    self.red_left -= 1
+
+                if self.winner() is not None:
+                    print("The winner is: " + str(self.winner()))
+                    pygame.quit()
+                    exit()
+
+    def winner(self):
+        if self.red_left <= 0:
+            return "Blue"
+        elif self.blue_left <= 0:
+            return "Red"
+
+        return None
 
     def get_valid_moves(self, piece):
         moves = {}

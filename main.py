@@ -1,6 +1,5 @@
 import pygame
 from checkers.actions import Actions
-from checkers.board import Board
 from utils.constants import *
 
 FPS = 60
@@ -23,9 +22,8 @@ def main():
     """
     Main function of the program
     """
-    run = True
     clock = pygame.time.Clock()
-    board = Board()
+    run = True
     actions = Actions(WIN)
 
     while run:
@@ -42,8 +40,6 @@ def main():
                     actions.select(row, col)
 
         actions.update()
-
-    pygame.quit()
 
 
 main()
