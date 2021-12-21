@@ -41,6 +41,23 @@ class Board:
             else:
                 self.blue_kings += 1
 
+    def evaluate(self):
+        """
+        Given the current state of the board, return the corresponding score. Note that red is the AI agent. We also
+        want to prioritize obtaining kings.
+        :return: Evaluation score of the current state.
+        """
+        return self.red_left - self.blue_left + (self.red_kings * 0.5 - self.blue_kings * 0.5)
+
+    def get_all_pieces(self, color):
+        pieces = []
+        for row in self.board:
+            for piece in row:
+                if piece != 0 and piece.color == color:
+                    pieces.append(piece)
+
+        return pieces
+
     def get_piece(self, row, col):
         """
         Gets the piece at a certain position.
