@@ -17,7 +17,7 @@ def minimax(position, depth, is_maximizing, game):
     if is_maximizing:
         best_score = float('-inf')
         best_move = None
-        for child in position.get_children(position, RED, game):
+        for child in get_children(position, RED, game):
             score = minimax(child, depth - 1, False, game)[0]
             best_score = max(best_score, score)
             if best_score == score:
@@ -26,21 +26,21 @@ def minimax(position, depth, is_maximizing, game):
     else:
         worst_score = float('inf')
         best_move = None
-        for child in position.get_children(position, BLUE, game):
+        for child in get_children(position, BLUE, game):
             score = minimax(child, depth - 1, True, game)[0]
-            best_score = max(best_score, score)
+            worst_score = max(worst_score, score)
             if worst_score == score:
                 best_move = child
-        return best_score, best_move
+        return worst_score, best_move
 
 
 def simulate_move(piece, move, board, game, skip):
     """
     Simulates a move on the board.
     """
-    board.move_piece(piece, move[0], move[1])
+    board.move(piece, move[0], move[1])
     if skip:
-        board.remove(skip)
+        board.remove_piece(skip)
 
     return board
 
@@ -50,11 +50,11 @@ def get_children(board, player, game):
     Returns a list of all possible moves for the player.
     """
     children = []
-    for move in board.get_all_pieces(player):
+    for piece in board.get_all_pieces(player):
         valid_moves = board.get_valid_moves(piece)
-
-        for move, skip in valid_moves.items:
+        for move, skip in valid_moves.items():
             temp_board = deepcopy(board)
-            new_board = simulate_move(piece, move, temp_board, game, skip)
+            temp_piece = temp_board.get_piece(piece.row, piece.col)
+            new_board = simulate_move(temp_piece, move, temp_board, game, skip)
             children.append(new_board)
     return children

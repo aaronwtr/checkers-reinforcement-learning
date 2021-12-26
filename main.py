@@ -1,6 +1,7 @@
 import pygame
 from checkers.actions import Actions
 from utils.constants import *
+from minimax.minimax_algo import minimax
 
 FPS = 60
 
@@ -28,6 +29,11 @@ def main():
 
     while run:
         clock.tick(FPS)
+
+        if actions.turn == RED:
+            value, new_board = minimax(actions.get_board(), 3, RED, actions)    # Higher depth means AI can look further
+                                                                                # ahead but it will be significantly slower.
+            actions.minimax_move(new_board)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
