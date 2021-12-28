@@ -105,15 +105,18 @@ class Board:
                 else:
                     self.red_left -= 1
 
+                # print("Blue left : " + str(self.blue_left))
+                # print("Red left: " + str(self.red_left))
+
                 if self.winner() is not None:
                     print("The winner is: " + str(self.winner()))
                     pygame.quit()
                     exit()
 
     def winner(self):
-        if self.red_left <= 0:
+        if self.red_left < 0:
             return "Blue"
-        elif self.blue_left <= 0:
+        elif self.blue_left < 0:
             return "Red"
 
         return None

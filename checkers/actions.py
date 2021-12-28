@@ -7,10 +7,13 @@ class Actions:
     def __init__(self, screen):
         self._init()
         self.screen = screen
+        self.selected = None
+        self.valid_moves = {}
 
     def update(self):
-        self.board.draw(self.screen)
-        self.draw_valid_moves(self.valid_moves)
+        if self.board.draw is not None:
+            self.board.draw(self.screen)
+            self.draw_valid_moves(self.valid_moves)
         pygame.display.update()
 
     def _init(self):
