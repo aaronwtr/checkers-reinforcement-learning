@@ -10,6 +10,9 @@ RED = (255, 0, 0)   # AI agent
 def minimax(position, depth, is_maximizing, game):
     """
     Minimax algorithm for the checkers game.
+
+    TO-DO:
+    Re-evaluate the algorithm. The AI seems to want to make a king and does not strike pieces as often.
     """
     if depth == 0 or position.winner() is not None:
         return position.evaluate(), position
