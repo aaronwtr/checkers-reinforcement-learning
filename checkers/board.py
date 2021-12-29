@@ -33,13 +33,13 @@ class Board:
         """
         self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
         piece.move(row, col)
-
         if row == 0 or row == NUM_ROWS - 1:
-            piece.make_king()
-            if piece.color == RED:
+            if piece.color == RED and not piece.king:
                 self.red_kings += 1
-            else:
+                piece.make_king()
+            if piece.color == BLUE and not piece.king:
                 self.blue_kings += 1
+                piece.make_king()
 
     def evaluate(self):
         """
@@ -47,7 +47,8 @@ class Board:
         want to prioritize obtaining kings.
         :return: Evaluation score of the current state.
         """
-        return self.red_left - self.blue_left + (self.red_kings * 0.5 - self.blue_kings * 0.5)
+        print(self.red_kings)
+        return self.red_left - 2 * self.blue_left + (self.red_kings * 0.3 - self.blue_kings * 0.5)
 
     def get_all_pieces(self, color):
         pieces = []
@@ -105,9 +106,6 @@ class Board:
                 else:
                     self.red_left -= 1
 
-                # print("Blue left : " + str(self.blue_left))
-                # print("Red left: " + str(self.red_left))
-
                 if self.winner() is not None:
                     print("The winner is: " + str(self.winner()))
                     pygame.quit()
@@ -151,7 +149,7 @@ class Board:
                 elif skipped:
                     moves[(r, left)] = last + skipped
                 else:
-                    moves[(r, left)] = last     # If checks are passed, add the move to dict of valid moves
+                    moves[(r, left)] = last  # If checks are passed, add the move to dict of valid moves
 
                 if last:
                     if step == -1:
@@ -166,7 +164,7 @@ class Board:
             elif potential_move.color == color:
                 break
             else:
-                last = [potential_move]    # if after one jump we can still jump, adjust the last list
+                last = [potential_move]  # if after one jump we can still jump, adjust the last list
             left -= 1
 
         return moves
@@ -185,7 +183,7 @@ class Board:
                 elif skipped:
                     moves[(r, right)] = last + skipped
                 else:
-                    moves[(r, right)] = last     # If checks are passed, add the move to dict of valid moves
+                    moves[(r, right)] = last  # If checks are passed, add the move to dict of valid moves
 
                 if last:
                     if step == -1:
@@ -200,7 +198,7 @@ class Board:
             elif potential_move.color == color:
                 break
             else:
-                last = [potential_move]    # if after one jump we can still jump, adjust the last list
+                last = [potential_move]  # if after one jump we can still jump, adjust the last list
             right += 1
 
         return moves

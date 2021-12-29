@@ -1,5 +1,6 @@
 import pygame
 from checkers.actions import Actions
+from checkers.board import Board
 from utils.constants import *
 from minimax.minimax_algo import minimax
 
@@ -22,10 +23,16 @@ def get_pos_from_mouse(pos):
 def main():
     """
     Main function of the program
+
+    TO-DO:
+    It looks like the AI only considers a single piece at a time. It moves if there is a valid move available, and if not
+    another piece is considered. We want the AI to consider ALL the pieces and picks the best move out of all of them. 
+    them.
     """
     clock = pygame.time.Clock()
     run = True
     actions = Actions(WIN)
+    board = Board()
 
     while run:
         clock.tick(FPS)
@@ -44,6 +51,11 @@ def main():
                 row, col = get_pos_from_mouse(pos)
                 if actions.turn:
                     actions.select(row, col)
+
+        if board.winner() is not None:
+            print("The winner is: " + str(board.winner()))
+            pygame.quit()
+            exit()
 
         actions.update()
 
