@@ -25,9 +25,11 @@ def main():
     Main function of the program
 
     TO-DO:
-    It looks like the AI only considers a single piece at a time. It moves if there is a valid move available, and if not
-    another piece is considered. We want the AI to consider ALL the pieces and picks the best move out of all of them. 
+    - It looks like the AI only considers a single piece at a time. It moves if there is a valid move available, and if not
+    another piece is considered. We want the AI to consider ALL the pieces and picks the best move out of all of them.
     them.
+
+    - The winner method aborts the game to soon. It seems like it is taking away pieces while it shouldn't.
     """
     clock = pygame.time.Clock()
     run = True

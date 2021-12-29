@@ -11,7 +11,7 @@ class Actions:
         self.valid_moves = {}
 
     def update(self):
-        if self.board.draw is not None:
+        if self.board is not None:
             self.board.draw(self.screen)
             self.draw_valid_moves(self.valid_moves)
         pygame.display.update()

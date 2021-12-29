@@ -47,7 +47,6 @@ class Board:
         want to prioritize obtaining kings.
         :return: Evaluation score of the current state.
         """
-        print(self.red_kings)
         return self.red_left - 2 * self.blue_left + (self.red_kings * 0.3 - self.blue_kings * 0.5)
 
     def get_all_pieces(self, color):
@@ -112,9 +111,9 @@ class Board:
                     exit()
 
     def winner(self):
-        if self.red_left < 0:
+        if self.red_left <= 0:
             return "Blue"
-        elif self.blue_left < 0:
+        elif self.blue_left <= 0:
             return "Red"
 
         return None
