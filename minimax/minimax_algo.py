@@ -31,7 +31,7 @@ def minimax(position, depth, is_maximizing, game):
         best_move = None
         for child in get_children(position, BLUE, game):
             score = minimax(child, depth - 1, True, game)[0]
-            worst_score = max(worst_score, score)
+            worst_score = min(worst_score, score)
             if worst_score == score:
                 best_move = child
         return worst_score, best_move

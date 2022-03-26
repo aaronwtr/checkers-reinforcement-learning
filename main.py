@@ -40,7 +40,7 @@ def main():
         clock.tick(FPS)
 
         if actions.turn == RED:
-            value, new_board = minimax(actions.get_board(), 3, RED, actions)    # Higher depth means AI can look further
+            value, new_board = minimax(actions.get_board(), 3, True, actions)    # Higher depth means AI can look further
                                                                                 # ahead but it will be significantly slower.
             actions.minimax_move(new_board)
 
