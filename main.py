@@ -25,11 +25,8 @@ def main():
     Main function of the program
 
     TO-DO:
-    - It looks like the AI only considers a single piece at a time. It moves if there is a valid move available, and if not
-    another piece is considered. We want the AI to consider ALL the pieces and picks the best move out of all of them.
-    them.
-
-    - The winner method aborts the game to soon. It seems like it is taking away pieces while it shouldn't.
+    - BUG: simulate_move messes up the count of pieces which causes the game to abort prematurely. However, we need the
+    simulate_move function to remove pieces so that minimax can correctly evaluate the board.
     """
     clock = pygame.time.Clock()
     run = True
@@ -40,8 +37,9 @@ def main():
         clock.tick(FPS)
 
         if actions.turn == RED:
-            value, new_board = minimax(actions.get_board(), 3, True, actions)    # Higher depth means AI can look further
-                                                                                # ahead but it will be significantly slower.
+            value, new_board = minimax(actions.get_board(), 3, True, actions)   # Higher depth means AI can look
+                                                                                        # further ahead but it will be
+                                                                                        # significantly slower.
             actions.minimax_move(new_board)
 
         for event in pygame.event.get():
@@ -53,11 +51,7 @@ def main():
                 row, col = get_pos_from_mouse(pos)
                 if actions.turn:
                     actions.select(row, col)
-
-        if board.winner() is not None:
-            print("The winner is: " + str(board.winner()))
-            pygame.quit()
-            exit()
+        actions.check_for_draw()
 
         actions.update()
 

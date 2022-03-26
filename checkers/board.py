@@ -1,4 +1,3 @@
-import pygame
 from utils.constants import *
 from .piece import Piece
 
@@ -47,7 +46,7 @@ class Board:
         want to prioritize obtaining kings.
         :return: Evaluation score of the current state.
         """
-        return self.red_left - 2 * self.blue_left + (self.red_kings * 0.3 - self.blue_kings * 0.5)
+        return self.red_left - 2 * self.blue_left + (self.red_kings * 0.03 - self.blue_kings * 0.05)
 
     def get_all_pieces(self, color):
         pieces = []
@@ -105,18 +104,19 @@ class Board:
                 else:
                     self.red_left -= 1
 
+                print(self.blue_left, self.red_left)
                 if self.winner() is not None:
                     print("The winner is: " + str(self.winner()))
                     pygame.quit()
                     exit()
 
     def winner(self):
-        if self.red_left <= 0:
-            return "Blue"
-        elif self.blue_left <= 0:
+        if self.blue_left == 0:
             return "Red"
-
-        return None
+        elif self.red_left == 0:
+            return "Blue"
+        else:
+            return None
 
     def get_valid_moves(self, piece):
         moves = {}

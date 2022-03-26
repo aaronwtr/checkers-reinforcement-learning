@@ -1,7 +1,5 @@
 from copy import deepcopy
-import pygame
 
-from checkers import board, piece
 
 BLUE = (0, 0, 255)  # Manual user
 RED = (255, 0, 0)   # AI agent
@@ -10,9 +8,6 @@ RED = (255, 0, 0)   # AI agent
 def minimax(position, depth, is_maximizing, game):
     """
     Minimax algorithm for the checkers game.
-
-    TO-DO:
-    Re-evaluate the algorithm. The AI seems to want to make a king and does not strike pieces as often.
     """
     if depth == 0 or position.winner() is not None:
         return position.evaluate(), position
@@ -37,7 +32,7 @@ def minimax(position, depth, is_maximizing, game):
         return worst_score, best_move
 
 
-def simulate_move(piece, move, board, game, skip):
+def simulate_move(piece, move, board, skip):
     """
     Simulates a move on the board.
     """
@@ -58,6 +53,6 @@ def get_children(board, player, game):
         for move, skip in valid_moves.items():
             temp_board = deepcopy(board)
             temp_piece = temp_board.get_piece(piece.row, piece.col)
-            new_board = simulate_move(temp_piece, move, temp_board, game, skip)
+            new_board = simulate_move(temp_piece, move, temp_board, skip)
             children.append(new_board)
     return children

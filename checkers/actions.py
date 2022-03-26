@@ -1,4 +1,3 @@
-import pygame
 from utils.constants import *
 from checkers.board import Board
 
@@ -39,6 +38,17 @@ class Actions:
             return True
 
         return False
+
+    def check_for_draw(self):
+        pieces = self.board.get_all_pieces(self.turn)
+        possible_moves = []
+        for piece in pieces:
+            possible_moves.append(self.board.get_valid_moves(piece))
+
+        if not any(possible_moves):
+            print(f"The game ended in a draw because {self.turn} has no moves left.")
+            pygame.quit()
+            exit()
 
     def _move(self, row, col):
         piece = self.board.get_piece(row, col)
